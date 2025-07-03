@@ -1,7 +1,7 @@
 export async function fetchAnime({ selectedGenres }) {
     const query = `
         query ($genres: [String], $page: Int) {
-            Page(page: $page, perPage: 25) {
+            Page(page: $page, perPage: 50) {
                 media(genre_in: $genres, type: ANIME, sort: POPULARITY_DESC) {
                 id
                 title { english }
