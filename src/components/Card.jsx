@@ -18,6 +18,10 @@ export const Card = ({ anime, action, onTransition }) => {
         shadow-2xl
     `;
 
+    // strip any HTML tags from the description
+    const stripTags = html => html.replace(/<[^>]+>/g, '')
+    const safeDesc = stripTags(anime.description || '')
+
     const transformClass = 
     action === 'right'
       ? 'translate-x-full rotate-12 scale-0 opacity-0'
@@ -28,10 +32,10 @@ export const Card = ({ anime, action, onTransition }) => {
     return (
         <div onTransitionEnd={onTransition} className={`${base} ${transformClass}`}>
             <div className="flex h-full flex-col md:flex-row bg-white bg-opacity-80 backdrop-blur-sm rounded-xl overflow-hidden">
-                <img src={anime.image} alt={anime.title} className="object-cover w-full h-48 md:h-auto md:w-1/3 hover:scale-105 transform transition-transform duration-300" />
+                <img src={anime.image} alt={anime.title || 'No title'} className="object-cover w-full h-48 md:h-auto md:w-1/3 hover:scale-105 transform transition-transform duration-300" />
                 <div className="p-4 flex flex-col flex-1 md:w-2/3">
-                    <h2 className="font-bold text-black text-lg">{anime.title}</h2>
-                    <p className="mt-2 text-black text-left flex-1 overflow-auto scrolling-touch scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-36 md:max-h-full">{anime.description}</p>
+                    <h2 className="font-bold text-black text-lg">{anime.title || 'No title'}</h2>
+                    <p className="mt-2 text-black text-left flex-1 overflow-auto scrolling-touch scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-36 md:max-h-full">{safeDesc}</p>
                 </div>
             </div>
         </div>

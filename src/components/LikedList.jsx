@@ -35,10 +35,10 @@ export const LikedList = ({items}) => {
                                 className="cursor-pointer block rounded-2xl p-1 bg-gradient-to-tr from-purple-600 to-pink-500 shadow-2xl transform hover:scale-105 transition-transform duration-300 h-full"
                             >
                                 <div key={item.id} className='bg-white bg-opacity-80 backdrop-blur-sm rounded-xl overflow-hidden flex flex-col h-full px-4 py-3'>
-                                    <img src={item.image} alt={item.title} className='object-cover h-40 w-full rounded-lg' />
+                                    <img src={item.image} alt={item.title || 'No title'} className='object-cover h-40 w-full rounded-lg' />
                                     <div className="p-2 flex-1 flex flex-col justify-around">
                                         <h3 className='font-bold flex justify-around text-black'>
-                                            {item.title}
+                                            {item.title || 'No title'}
                                             <img src='./crunchyroll.png' alt='crunchyroll' className='w-6 h-6 mr-2' />
                                         </h3>
                                     </div>

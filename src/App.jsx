@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
 import { fetchAnime } from './api'
@@ -12,12 +12,16 @@ function App() {
 	const [selectedGenres, setSelectedGenres] = useState([]);
 	const [fetchedList, setFetchedList] = useState([]);
 	const [likedList, setLikedList] = useState([]);
+	const topRef = useRef(null);
 
 	// router hooks to watch path changes
 	const location = useLocation()
 
 	// enforce: → Genres ("/") → Cards ("/cards") → Liked ("/liked")
 	useEffect(() => {
+		window.scrollTo(0, 0);
+		topRef.current?.focus();
+
 		if(location.pathname == '/') {
 			setSelectedGenres([])
 			setFetchedList([])
@@ -56,7 +60,7 @@ function App() {
 	return (
 		<>
 			<a href="#main-content" className="sr-only focus:not-sr-only p-2">Skip to content</a>
-			<div id="main-content">
+			<div id="main-content" tabIndex={-1} ref={topRef}>
 				<Routes>
 					<Route path='/' element={<Genres selected={selectedGenres} onChange={setSelectedGenres} />} />
 					<Route path='/cards' element={<Cards list={fetchedList} onLiked={anime => setLikedList(prev => {
