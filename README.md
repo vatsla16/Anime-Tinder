@@ -1,7 +1,7 @@
 # 🎴 Anime Tinder
 
 ## 🧠 Overview
-A responsive, accessible React 19 + Tailwind CSS app that lets you swipe through the top anime by genre, like your favorites, and view them in a list—each linked straight to Crunchyroll.
+A responsive, accessible Anime Tinder app that lets you swipe through the top anime by genre, like your favourites, and view them later, each linked straight to Crunchyroll.
 
 ## 🏗️ Architecture  
 ```text
