@@ -1,11 +1,14 @@
 import { useNavigate, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card } from './Card';
 
 export const Cards = ({ list, onLiked }) => {
     const [cards, setCards] = useState(list);
-    const [action, setAction] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setCards(list)
+    }, [list])
 
     // If Genre is not selected
     if(!list.length) {
@@ -27,24 +30,6 @@ export const Cards = ({ list, onLiked }) => {
             </section>
         );
     }
-
-    // When you click a button, tell the top card which way to animate
-    const trigger = dir => {
-        setAction(dir)
-    }
-
-    // After the card’s CSS transition ends:
-    const handleTransition = () => {
-        if (!action) return
-
-        const [topAnime, ...rest] = cards
-        if (action === 'right') {
-            onLiked(topAnime)
-        }
-
-        setCards(rest)
-        setAction(null)
-    }
     
     return (
         <>
@@ -57,15 +42,15 @@ export const Cards = ({ list, onLiked }) => {
                 <main className='flex flex-col items-center space-y-4 mt-4' id="cards-main" role="main" aria-labelledby="cards-title">
                     <div className="relative h-96 w-72 sm:w-80 md:w-100 lg:w-[32rem] overflow-visible">
                         {cards.map((anime, idx) => (
-                            <div key={anime.id} style={{ zIndex: cards.length - idx }} className="absolute inset-0">
-                                <Card key={anime.id} top={idx === 0} anime={anime} action={idx === 0 ? action : null} onTransition={idx === 0 ? handleTransition : undefined} />
+                            <div key={anime.id} style={{ zIndex: cards.length - idx - 10 }} className="absolute inset-0">
+                                <Card key={anime.id} anime={anime} />
                             </div>
                         ))}
                     </div>
 
                     <div className="mt-4 flex justify-between w-72">
-                        <button type="button" aria-label="Dislike current anime" onClick={() => trigger('left')} className="btn-red cursor-pointer">Dislike</button>
-                        <button type="button" aria-label="Like current anime" onClick={() => trigger('right')} className="btn-green cursor-pointer">Like</button>
+                        <button type="button" aria-label="Dislike current anime" onClick={() => setCards(prev => prev.slice(1))} className="text-green-900 btn-background cursor-pointer" style={{ zIndex: cards.length - 1 }}>X</button>
+                        <button type="button" aria-label="Like current anime" onClick={() => {onLiked(cards[0]); setCards(prev => prev.slice(1));}} className="text-red-900 btn-background cursor-pointer" style={{ zIndex: cards.length - 1 }}>🔥</button>
                     </div>
 
                     <nav aria-label="Go to Liked Anime" className="mt-6">
